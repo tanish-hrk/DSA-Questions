@@ -1,0 +1,105 @@
+Ravi and Shop (Basic Coding)
+--------------------------------------------------------------------------------------------------------------------------------
+Ravi loves shopping, and especially he likes to buy oranges. But right now, he is short of money. He has only k rubles.
+There are n oranges available. The i-th orange costs cost I rubles and has a weight equal to weight i.
+Ravi wants to buy a set of oranges with the maximal possible total weight.
+Can you help him find this maximal weight?
+
+Input Format........
+>The first line of the input contains an integer T, denoting the number of test cases.
+>For each test case, the first line contains two integers n and k.
+>The following n lines each contain two integers costi and weighti, denoting the cost and weight of the i-th orange.
+
+Output Format.......
+For each test case, output a single line containing the maximal weight Ravi can afford.
+Constraints
+
+1<=T<=250
+1<=n<=10
+1<=k<=100,000,000
+1<=weighti<=100,000,000
+1<=costi<=100,000,000
+
+Subtasks.........
+Subtask 1 : All oranges weights equal to 1.
+Subtask 2 : n=5n = 5n=5.
+Subtask 3 : See the full constraints.
+
+
+Sample Input..........
+2
+1 3
+2 2
+3 4
+2 1
+2 2
+3 5
+
+Sample Output..........
+2
+5
+
+Explanation...........
+Test Case 1: Ravi has k=3 rubles. There is only one orange costing 2 rubles and weighing 2.
+Ravi can afford this orange, so the maximum weight is 2.
+
+Test Case 2: Ravi has k=4 rubles. Out of three oranges:
+Orange 1 costs 2 rubles and weighs 1.
+Orange 2 costs 2 rubles and weighs 2.
+Orange 3 costs 3 rubles and weighs 5.
+He can buy the third orange, which gives the maximum weight of 5.
+
+
+.........................................SOLUTION in Java.........................................
+import java.util.*;  
+
+public class MaxWeightOranges {  
+    public static void main(String[] args) {  
+        Scanner sc = new Scanner(System.in);  
+        
+        int T = sc.nextInt(); // Number of test cases  
+        for (int t = 0; t < T; t++) {  
+            int n = sc.nextInt(); // Number of oranges  
+            long k = sc.nextLong(); // Budget in rubles  
+            
+            int[] costs = new int[n];  
+            int[] weights = new int[n];  
+            for (int i = 0; i < n; i++) {  
+                costs[i] = sc.nextInt();  
+                weights[i] = sc.nextInt();  
+            }  
+
+            // Calculate maximum weight  
+            long maxWeight = getMaxWeight(n, k, costs, weights);  
+            System.out.println(maxWeight);  
+        }  
+        
+        sc.close();  
+    }  
+
+    private static long getMaxWeight(int n, long k, int[] costs, int[] weights) {  
+        long maxWeight = 0;  
+        // Loop through all possible combinations using bitmasks  
+        for (int mask = 0; mask < (1 << n); mask++) {  
+            long totalCost = 0;  
+            long totalWeight = 0;  
+
+            for (int i = 0; i < n; i++) {  
+                // Check if the i-th orange is included in the combination  
+                if ((mask & (1 << i)) != 0) {  
+                    totalCost += costs[i];  
+                    totalWeight += weights[i];  
+                }  
+            }  
+
+            // Only consider this combination if total cost is within the budget  
+            if (totalCost <= k) {  
+                maxWeight = Math.max(maxWeight, totalWeight);  
+            }  
+        }  
+        return maxWeight;  
+    }  
+}
+.........................................................................................................
+Complexity...............
+Given n is small (max 10), the combination exploration (2^n) is feasible within the limits. The solution runs efficiently for the provided constraints.
