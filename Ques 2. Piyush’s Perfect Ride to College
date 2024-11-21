@@ -1,0 +1,107 @@
+Piyush’s Perfect Ride to College (Moderate Coding)
+----------------------------------------------------------------------------------------------------------------
+Problem Description............
+
+Piyush is a college student who lives far from his campus at point 0 on a long, straight road. His 
+college is located at a specific point d, which is an integer distance away from his home. Every day, 
+Piyush needs to find a vehicle that can get him to college on time while meeting specific conditions. 
+• Piyush leaves his home every day at 8:00 AM 
+• The college gates open and close at specific times during the day. These times are given as: 
+     L: The earliest time the gates open, represented in 24 hr format. 
+     R: The latest time the gates close, also represented in 24 hr format. 
+• If Piyush arrives earlier than L or later than R, he cannot enter the college. 
+• Piyush has n vehicles available to choose from. Each vehicle has a fixed speed (in kilometers 
+per Hr), but vehicles only stop at positions that are integer multiples of their speed.
+For example: 
+- A vehicle with a speed of 5 will stop at distances 5, 10, 15, …, but not at any other 
+points. 
+• Piyush wants to select a vehicle that satisfies the following conditions: 
+The vehicle must stop exactly at the college's position d. 
+The vehicle must reach the college between L and R minutes from midnight (inclusive). 
+Out of all valid options, Piyush prefers the vehicle with the minimum speed to ensure a comfortable ride. 
+If no vehicle meets these criteria, Piyush will have to miss college for the day. 
+
+Input Format.....................
+1. The first line contains an integer d, the distance (in kilometers) between Piyush’s home and 
+his college. 
+2. The second line contains two integers L and R, representing the gate opening and closing 
+times in 24 hr format. 
+3. The third line contains an integer n, the number of vehicles available. 
+4. The fourth line contains n integers, where each integer represents the speed (in kilometers 
+per Hr) of a vehicle. 
+
+Output Format.....................
+Output the minimum speed of the vehicle that satisfies the conditions. If no vehicle meets all 
+criteria, output -1. 
+
+Constraints 
+• 1 <= d <= 10^9 
+• 8<= L, R <= 24 
+• 1 <= n <= 10^5 
+• 1 <= speed <=10^9
+
+Example 1........
+input :- 10  
+         8 10  
+         3  
+         5 8 2 
+Output :- 5
+
+Example 2.......
+input :- 15  
+         9 11  
+         4  
+         10 5 3 8 
+Output :- 5
+..................................SOLUTION IN JAVA.............................................
+
+import java.util.Scanner;  
+
+public class PiyushPerfectRide {  
+    public static void main(String[] args) {  
+        Scanner scanner = new Scanner(System.in);    
+        int d = scanner.nextInt();                       // Input distance to college
+
+        int L = scanner.nextInt();                       // Input opening and closing times
+        int R = scanner.nextInt();  
+  
+        int L_minutes = L * 60;                           // Convert L and R to minutes
+        int R_minutes = R * 60;  
+  
+        int n = scanner.nextInt();                        // Input number of vehicles
+
+        int[] speeds = new int[n];                        // Input speeds of vehicles  
+        for (int i = 0; i < n; i++) {  
+            speeds[i] = scanner.nextInt();  
+        }  
+
+        int leaveTime = 480;                              // Piyush leaves at 8:00 AM, which is 480 minutes  
+        int minSpeed = Integer.MAX_VALUE;  
+ 
+        for (int speed : speeds) {                                                      // Check each vehicle 
+
+            if (d % speed == 0) {                                                      // Check if the vehicle can stop at exactly distance d  
+                int timeToReach = (d / speed) * 60;                                    // Calculate time to reach college in minutes  
+                int arrivalTime = leaveTime + timeToReach;  
+
+                if (arrivalTime >= L_minutes && arrivalTime <= R_minutes) {             // Check if arrival time is within the allowed range  
+                    if (speed < minSpeed) {                                             // Check for minimum speed  
+                        minSpeed = speed;  
+                    }  
+                }  
+            }  
+        }  
+
+        if (minSpeed == Integer.MAX_VALUE) {                                              // Output the result  
+            System.out.println(-1);  
+        } else {  
+            System.out.println(minSpeed);  
+        }  
+
+        scanner.close();  
+    }  
+}
+..........................................................................................................
+Complexity:
+The solution runs in O(n) time complexity, as we need to check each vehicle exactly once,
+making it efficient for the given constraints.
