@@ -1,0 +1,77 @@
+An Apple Orchard (Basic Coding)
+This problem was asked by Google|Capgemini
+.........................................................................................................
+A girl is walking along an apple orchard with a bag in each hand.
+She likes to pick apples from each tree as she goes along but is meticulous about not putting different kinds of apples in the same bag.
+Given an input describing the types of apples she will pass on her path, in order,
+determine the length of the longest portion of her path that consists of just two types of apple trees.
+
+Input Format
+•	The first line contains an integer n, the number of trees.
+•	The second line contains n space-separated integers representing the types of apples on the trees.
+
+Output Format
+•	Print a single integer, the length of the longest portion of her path that consists of just two types of apple trees.
+
+Constraints
+•	1 <= n <= 100000
+•	1 <= apple_type <= 1000
+
+Examples.............
+Example 1
+Input:
+8
+2 1 2 3 3 1 3 5
+
+Output:
+4
+Explanation: The longest portion will involve types 1 and 3, with a length of four.
+
+.....................................................SOLUTION IN JAVA.......................................................
+
+import java.util.HashMap;  
+import java.util.Map;  
+import java.util.Scanner;  
+
+public class AppleOrchard {  
+    public static void main(String[] args) {  
+        Scanner scanner = new Scanner(System.in);  
+        
+        // Read number of trees  
+        int n = scanner.nextInt();  
+        int[] appleTypes = new int[n];  
+
+        // Read apple types from input  
+        for (int i = 0; i < n; i++) {  
+            appleTypes[i] = scanner.nextInt();  
+        }  
+
+        int maxLength = findLongestTwoTypeSegment(appleTypes);  
+        System.out.println(maxLength);  
+    }  
+
+    private static int findLongestTwoTypeSegment(int[] appleTypes) {  
+        Map<Integer, Integer> countMap = new HashMap<>(); // To count occurrences  
+        int left = 0, maxLength = 0;  
+
+        for (int right = 0; right < appleTypes.length; right++) {  
+            // Include the current apple type in the count map  
+            countMap.put(appleTypes[right], countMap.getOrDefault(appleTypes[right], 0) + 1);  
+
+            // If we have more than 2 types, shrink the window from the left  
+            while (countMap.size() > 2) {  
+                int leftApple = appleTypes[left];  
+                countMap.put(leftApple, countMap.get(leftApple) - 1);  
+                if (countMap.get(leftApple) == 0) {  
+                    countMap.remove(leftApple);  
+                }  
+                left++; // Move left pointer to the right  
+            }  
+            
+            // Update maxLength  
+            maxLength = Math.max(maxLength, right - left + 1);  
+        }  
+
+        return maxLength;  
+    }  
+}
