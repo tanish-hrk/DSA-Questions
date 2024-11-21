@@ -59,40 +59,52 @@ import java.util.Scanner;
 
 public class PiyushPerfectRide {  
     public static void main(String[] args) {  
-        Scanner scanner = new Scanner(System.in);    
-        int d = scanner.nextInt();                       // Input distance to college
+        Scanner scanner = new Scanner(System.in);  
 
-        int L = scanner.nextInt();                       // Input opening and closing times
+        // Input distance to college  
+        int d = scanner.nextInt();  
+
+        // Input opening and closing times  
+        int L = scanner.nextInt();  
         int R = scanner.nextInt();  
-  
-        int L_minutes = L * 60;                           // Convert L and R to minutes
-        int R_minutes = R * 60;  
-  
-        int n = scanner.nextInt();                        // Input number of vehicles
 
-        int[] speeds = new int[n];                        // Input speeds of vehicles  
+        // Convert L and R to minutes  
+        int L_minutes = L * 60;  
+        int R_minutes = R * 60;  
+
+        // Input number of vehicles  
+        int n = scanner.nextInt();  
+
+        // Input speeds of vehicles  
+        int[] speeds = new int[n];  
         for (int i = 0; i < n; i++) {  
             speeds[i] = scanner.nextInt();  
         }  
 
-        int leaveTime = 480;                              // Piyush leaves at 8:00 AM, which is 480 minutes  
+        // Piyush leaves at 8:00 AM, which is 480 minutes  
+        int leaveTime = 480;  
         int minSpeed = Integer.MAX_VALUE;  
- 
-        for (int speed : speeds) {                                                      // Check each vehicle 
 
-            if (d % speed == 0) {                                                      // Check if the vehicle can stop at exactly distance d  
-                int timeToReach = (d / speed) * 60;                                    // Calculate time to reach college in minutes  
+        // Check each vehicle  
+        for (int speed : speeds) {  
+            // Check if the vehicle can stop at exactly distance d  
+            if (d % speed == 0) {  
+                // Calculate time to reach college in minutes  
+                int timeToReach = (d / speed) * 60;  
                 int arrivalTime = leaveTime + timeToReach;  
 
-                if (arrivalTime >= L_minutes && arrivalTime <= R_minutes) {             // Check if arrival time is within the allowed range  
-                    if (speed < minSpeed) {                                             // Check for minimum speed  
+                // Check if arrival time is within the allowed range  
+                if (arrivalTime >= L_minutes && arrivalTime <= R_minutes) {  
+                    // Check for minimum speed  
+                    if (speed < minSpeed) {  
                         minSpeed = speed;  
                     }  
                 }  
             }  
         }  
 
-        if (minSpeed == Integer.MAX_VALUE) {                                              // Output the result  
+        // Output the result  
+        if (minSpeed == Integer.MAX_VALUE) {  
             System.out.println(-1);  
         } else {  
             System.out.println(minSpeed);  
